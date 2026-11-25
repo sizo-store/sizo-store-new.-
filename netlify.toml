@@ -1,0 +1,64 @@
+[build]
+  publish = "public"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/admin"
+  to = "/admin/"
+  status = 301
+
+# Les photos et vidéos envoyées depuis l'admin sont servies par la fonction.
+[[redirects]]
+  from = "/media/:id"
+  to = "/.netlify/functions/store-api?action=media&id=:id"
+  status = 200
+  force = true
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' blob:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "no-store, no-cache, max-age=0, must-revalidate"
+    Netlify-CDN-Cache-Control = "no-store"
+    CDN-Cache-Control = "no-store"
+    Pragma = "no-cache"
+    Expires = "0"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "no-store, no-cache, must-revalidate"
+    Netlify-CDN-Cache-Control = "no-store"
+    CDN-Cache-Control = "no-store"
+    Pragma = "no-cache"
+    Expires = "0"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "no-store, no-cache, must-revalidate"
+    Netlify-CDN-Cache-Control = "no-store"
+    CDN-Cache-Control = "no-store"
+    Pragma = "no-cache"
+    Expires = "0"
+
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    Cache-Control = "no-store, no-cache, max-age=0, must-revalidate"
+    Netlify-CDN-Cache-Control = "no-store"
+    CDN-Cache-Control = "no-store"
+    Pragma = "no-cache"
+    Expires = "0"
+    X-Robots-Tag = "noindex, nofollow"

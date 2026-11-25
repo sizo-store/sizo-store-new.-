@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>Administration | SIZO</title>
+<link rel="stylesheet" href="/admin/admin.css?v=20261125-fix-revert">
+</head>
+<body>
+<header class="bar"><span class="brand">SIZO · ADMIN</span><a href="/" target="_blank" rel="noopener">Voir la boutique ↗</a></header>
+<main class="wrap">
+<section class="card login" id="loginBox"><h1 style="margin-top:0">Connexion admin</h1><p class="note">Espace réservé au propriétaire du magasin.</p>
+<form id="loginForm"><label for="password">Mot de passe administrateur</label><input id="password" type="password" autocomplete="current-password" required><p id="loginError" class="error" role="alert"></p><button type="submit">Se connecter</button></form></section>
+
+<section id="dashboard" class="hidden">
+<div class="row between"><div><h1 style="margin:0">Tableau de bord</h1><p class="note">Tout ce que vous modifiez ici est visible tout de suite sur la boutique.</p></div><div class="row"><button class="secondary" id="notifyBtn" data-act="enableNotifications">Activer les notifications</button><button class="secondary" data-act="logout">Déconnexion</button></div></div>
+<div id="orderAlert" class="order-alert hidden" role="status"><span id="orderAlertText">طلب جديد وصل للمتجر</span><button type="button" class="secondary small" data-act="tab" data-v="orders">شوف الطلبات</button><button type="button" class="secondary small" data-act="dismissOrderAlert" aria-label="إغلاق">×</button></div>
+<nav class="tabs dashboard-tiles" aria-label="Navigation du tableau de bord">
+<button class="active" data-act="tab" data-v="home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11 12 3l9 8v10h-6v-6H9v6H3z"/></svg><span>Accueil</span></button>
+<button data-act="tab" data-v="orders"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM8 9h8M8 13h5"/></svg><span>Commandes</span></button>
+<button data-act="tab" data-v="products"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z M4.5 7.8 12 12l7.5-4.2M12 12v9"/></svg><span>Produits</span></button>
+<button data-act="tab" data-v="customers"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 20v-1.5a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4V20M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM16 3.5a4 4 0 0 1 0 7.5M18 14.5a4 4 0 0 1 4 4V20"/></svg><span>Clients</span></button>
+<button data-act="tab" data-v="inquiries"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v12H9l-5 4V5Z M8 9h8M8 13h5"/></svg><span>Demandes clients</span><span class="badge hidden" id="qBadge"></span></button>
+<button data-act="tab" data-v="stats"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10h4v10M10 20V4h4v16M16 20v-7h4v7"/></svg><span>Statistiques</span></button>
+<button data-act="tab" data-v="settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z M19 13.5l2 1.5-2 3-2.3-.8-1.4.8-.4 2.5h-3.8l-.4-2.5-1.4-.8-2.3.8-2-3 2-1.5v-1.7l-2-1.5 2-3 2.3.8 1.4-.8.4-2.5h3.8l.4 2.5 2.3-.8 2 3-2 1.5v1.7Z"/></svg><span>Réglages</span></button>
+</nav>
+
+<section id="tab-home"><div class="stats">
+<div class="stat">Chiffre d’affaires<strong id="hRevenue">0 MAD</strong></div><div class="stat">Commandes<strong id="hOrders">0</strong></div><div class="stat">À traiter<strong id="hPending">0</strong></div><div class="stat">Produits visibles<strong id="hProducts">0</strong></div><div class="stat">Clients<strong id="hCustomers">0</strong></div><div class="stat">Demandes nouvelles<strong id="hInquiries">0</strong></div><div class="stat">Stock faible<strong id="hLowStock">0</strong></div></div>
+<div class="card"><div class="row between"><h2 style="margin:0">Dernières commandes</h2><button class="secondary" data-act="tab" data-v="orders">Voir les commandes</button></div><div id="homeLatest"></div></div></section>
+<section id="tab-orders"><div class="card">
+<div class="stats"><div class="stat">Commandes<strong id="oCount">0</strong></div><div class="stat">À traiter<strong id="oPending">0</strong></div><div class="stat">Total (hors annulées)<strong id="oRevenue">0 MAD</strong></div></div>
+<div class="row between"><div class="row"><select id="oFilter" style="width:auto"><option value="">Tous les statuts</option></select><input id="oSearch" placeholder="Rechercher nom, téléphone, n°…" style="width:230px"></div><div class="row"><button class="secondary" data-act="csv">Télécharger Excel (CSV)</button><button data-act="reload">Actualiser</button></div></div>
+<div id="ordersList"></div></div></section>
+
+<section id="tab-products" class="hidden"><div class="layout">
+<div class="card"><div class="row between"><h2 style="margin:0">Catalogue</h2><button data-act="newProduct">+ Ajouter</button></div><div id="productList"></div></div>
+<form class="card" id="productForm"><h2 id="formTitle" style="margin-top:0">Nouveau produit</h2><input type="hidden" id="pId">
+<label>Nom</label><input id="pName" maxlength="100" required>
+<div class="grid2"><div><label>Prix normal (MAD)</label><input id="pPrice" type="number" min="0" step="0.01" required></div><div><label>Prix après réduction (facultatif)</label><input id="pSalePrice" type="number" min="0" step="0.01" placeholder="Ex. 149"></div><div><label>Quantité en stock</label><input id="pStock" type="number" min="0" step="1" placeholder="Ex. 10"></div></div><p class="note">Laissez le stock vide si vous ne souhaitez pas le suivre. Alerte quand il reste 5 unités ou moins.</p><p class="note">Laissez vide sans promotion. Le prix réduit doit être inférieur au prix normal.</p><div class="grid2"><div><label>Collection</label><select id="pCategory"><option value="homme">Homme</option><option value="femme">Femme</option></select></div></div>
+<div class="grid2"><div><label>Étiquette (ex. NOUVEAU)</label><input id="pTag" maxlength="40"></div><div><label>Visibilité</label><label style="margin:8px 0 0"><input type="checkbox" id="pActive" checked> Visible dans la boutique</label></div></div>
+<label>Description</label><textarea id="pDesc" maxlength="2000" placeholder="Matière, coupe, entretien…"></textarea>
+<label>Couleurs</label><div id="pColors"></div><button type="button" class="secondary small" data-act="addColor">+ Ajouter une couleur</button>
+<label>Tailles (séparées par des virgules)</label><input id="pSizes" value="S, M, L, XL, XXL" required>
+<label>Photos (la première est l’image principale)</label><div class="media" id="pImages"></div>
+<input type="file" id="pImageFile" accept="image/jpeg,image/png,image/webp" multiple data-up="image">
+<label>Vidéo du produit (MP4 ou WebM, 30 Mo max)</label><div class="media" id="pVideo"></div>
+<input type="file" id="pVideoFile" accept="video/mp4,video/webm" data-up="video">
+<div class="bar-progress hidden" id="upBar"><i></i></div><p class="note" id="upMsg" role="status"></p>
+<div class="row" style="margin-top:14px"><button type="submit" id="saveBtn">Enregistrer</button><button type="button" class="danger hidden" id="delBtn" data-act="delProduct">Supprimer</button></div>
+<p id="pError" class="error" role="alert"></p></form></div></section>
+
+<section id="tab-inquiries" class="hidden"><div class="card"><div class="row between"><strong>Demandes et questions des clients</strong><button data-act="reload">Actualiser</button></div><div id="inqList"></div></div></section>
+
+<section id="tab-customers" class="hidden"><div class="card"><div class="row between"><h2 style="margin:0">Liste des clients</h2><button class="secondary" data-act="customersCsv">Exporter CSV</button></div><p class="note">Les clients sont regroupés automatiquement à partir des commandes enregistrées.</p><input id="cSearch" placeholder="Rechercher nom, téléphone ou ville…"><div id="customersList"></div></div></section>
+<section id="tab-stats" class="hidden"><div class="stats"><div class="stat">Chiffre d’affaires<strong id="stRevenue">0 MAD</strong></div><div class="stat">Panier moyen<strong id="stAverage">0 MAD</strong></div><div class="stat">Commandes livrées<strong id="stDelivered">0</strong></div><div class="stat">Taux de livraison<strong id="stRate">0 %</strong></div></div><div class="card stats-chart-card"><h2 style="margin-top:0">Répartition des commandes</h2><div class="donut-layout"><div id="stDonut" class="donut-chart" role="img" aria-label="Répartition des commandes par statut"><div class="donut-hole"><strong id="stDonutTotal">0</strong><span>commandes</span></div></div><div id="stLegend" class="donut-legend"></div></div></div><div class="layout"><div class="card"><h2 style="margin-top:0">Commandes par statut</h2><div id="stStatuses"></div></div><div class="card"><h2 style="margin-top:0">Produits les plus commandés</h2><div id="stProducts"></div></div></div><p class="note">Statistiques calculées à partir des commandes enregistrées.</p></section>
+<section id="tab-settings" class="hidden"><form class="card" id="settingsForm" style="max-width:780px"><h2 style="margin-top:0">Réglages de la boutique</h2>
+<label>Nom / logo texte</label><input id="sName" maxlength="140" required>
+<label>Bandeau en haut du site</label><input id="sTopbar" maxlength="140" required>
+<label>Titre principal (Entrée = nouvelle ligne)</label><textarea id="sHeroTitle" maxlength="100" style="min-height:60px" required></textarea>
+<label>Texte de présentation</label><textarea id="sHeroText" maxlength="400"></textarea>
+<label>Texte « À propos »</label><textarea id="sAbout" maxlength="600"></textarea>
+<label>Image principale de l’accueil</label><div class="media" id="sHeroPreview"></div><input type="file" id="sHeroFile" accept="image/jpeg,image/png,image/webp" data-up="hero"><p class="note" id="sHeroMsg"></p><div class="grid2"><div><label>إظهار صورة الواجهة</label><select id="sHeroVisible"><option value="true">إظهار</option><option value="false">إخفاء</option></select></div><div><label>مكان الصورة</label><select id="sHeroPosition"><option value="normal">على اليمين (افتراضي)</option><option value="image-first">على اليسار</option></select></div></div>
+<h3>Couleurs</h3><div class="grid2"><div><label>Fond du site</label><input type="color" id="sBg"></div><div><label>Texte</label><input type="color" id="sText"></div><div><label>Boutons</label><input type="color" id="sButton"></div><div><label>Texte des boutons</label><input type="color" id="sButtonText"></div><div><label>Couleur d’accent</label><input type="color" id="sAccent"></div><div><label>Fond des sections claires</label><input type="color" id="sHeroBg"></div></div>
+<h3>Polices</h3><div class="grid2"><div><label>Police générale</label><select id="sFont"></select></div><div><label>Police des titres</label><select id="sHeadingFont"></select></div><div><label>Taille du texte</label><select id="sBodySize"><option>14px</option><option>15px</option><option>16px</option><option>18px</option></select></div></div>
+<h3>Contact et livraison</h3><div class="grid2"><div><label>Téléphone</label><input id="sPhone" maxlength="30"></div><div><label>WhatsApp (ex. 0612345678)</label><input id="sWhatsapp" maxlength="30"></div><div><label>Email</label><input id="sEmail" maxlength="100"></div><div><label>Adresse</label><input id="sAddress" maxlength="200"></div><div><label>Frais de livraison (MAD, 0 = gratuite)</label><input id="sFee" type="number" min="0" step="1"></div><div><label>Livraison offerte dès (MAD, 0 = jamais)</label><input id="sFree" type="number" min="0" step="1"></div></div>
+<div class="row" style="margin-top:16px"><button type="submit">Enregistrer les réglages</button><button type="button" class="secondary" data-act="cleanup">Supprimer les fichiers inutilisés</button></div><p id="sMsg" class="note" role="status"></p></form></section>
+</section></main>
+<script src="/admin/admin.js?v=20261125-fix-revert" defer></script>
+</body></html>

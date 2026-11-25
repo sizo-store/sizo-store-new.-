@@ -1,0 +1,156 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SIZO | Mode Homme &amp; Femme</title>
+<meta name="description" content="SIZO — vêtements contemporains pour homme et femme au Maroc.">
+<meta name="theme-color" content="#191919">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23191919'/%3E%3Ctext x='32' y='43' font-size='34' text-anchor='middle' fill='white' font-family='Georgia' font-style='italic'%3ES%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link id="gfonts" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/assets/store.css?v=20261125-fix-revert">
+</head>
+
+<body class="settings-loading">
+
+<div class="topbar" id="topbar">SIZO · COLLECTION CONTEMPORAINE · HOMME &amp; FEMME · MAROC</div>
+
+<header>
+  <a class="logo" href="#accueil" id="logo">SIZO</a>
+  <nav aria-label="Navigation">
+    <a href="#accueil">Accueil</a>
+    <a href="#collections">Collections</a>
+    <a href="#apropos">À propos</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <button class="cart-btn" data-act="openCart" aria-label="Ouvrir le panier">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.2 11.2a2 2 0 0 0 2 1.6h8.9a2 2 0 0 0 1.9-1.4L22 8H6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="20" r="1.2" fill="currentColor"/><circle cx="18" cy="20" r="1.2" fill="currentColor"/></svg>
+    <span id="cartCount">0</span>
+  </button>
+</header>
+
+<main>
+
+<section class="hero" id="accueil">
+  <div class="hero-copy">
+    <div class="eyebrow">L’allure au quotidien</div>
+    <h1 id="heroTitle">Le style
+sans effort.</h1>
+    <p id="heroText">Des essentiels contemporains, des coupes soignées et une élégance facile à porter.</p>
+    <a class="btn" href="#collections">Découvrir la collection</a>
+  </div>
+  <div class="hero-image" role="img" aria-label="Campagne mode homme et femme"></div>
+</section>
+
+<div class="trust">
+  <span>✦ Homme &amp; femme</span>
+</div>
+
+<section class="collections" aria-label="Choisir une collection">
+  <div class="eyebrow">Explorez</div>
+  <h2>Nos collections</h2>
+  <p>Choisissez directement votre univers.</p>
+  <div class="row">
+    <a class="btn" href="#collections" data-act="filter" data-v="homme">Homme</a>
+    <a class="btn" href="#collections" data-act="filter" data-v="femme">Femme</a>
+  </div>
+</section>
+
+<section class="products" id="collections">
+  <div class="section-head">
+    <div>
+      <div class="eyebrow">La sélection</div>
+      <h2>La collection</h2>
+    </div>
+    <div class="filters" id="filters">
+      <button class="active" data-act="filter" data-v="all">Tout</button>
+      <button data-act="filter" data-v="homme">Homme</button>
+      <button data-act="filter" data-v="femme">Femme</button>
+    </div>
+  </div>
+  <div class="grid" id="productGrid" aria-live="polite">
+    <div class="empty">Chargement…</div>
+  </div>
+</section>
+
+<section class="about" id="apropos">
+  <div>
+    <div class="eyebrow">Bienvenue</div>
+    <h2>Le détail fait la différence.</h2>
+  </div>
+  <p id="aboutText"></p>
+</section>
+
+<section class="benefits" aria-label="Nos services" id="benefits"></section>
+
+<section class="contact" id="contact">
+  <div>
+    <div class="eyebrow">Une question ?</div>
+    <h2>Contactez-nous</h2>
+    <p style="font-size:14px;line-height:1.8;color:var(--muted)">
+      Taille, disponibilité, livraison : écrivez-nous, nous répondons rapidement.
+    </p>
+    <ul id="contactInfo"></ul>
+  </div>
+
+  <form class="f" id="inquiryForm" novalidate>
+    <label for="qName">Nom complet *</label>
+    <input id="qName" autocomplete="name" required maxlength="100">
+
+    <label for="qWhatsapp">Numéro WhatsApp *</label>
+    <input id="qWhatsapp" type="tel" inputmode="tel" required maxlength="30" placeholder="06 12 34 56 78">
+
+    <label for="qPhone">Numéro de téléphone *</label>
+    <input id="qPhone" type="tel" autocomplete="tel" inputmode="tel" required maxlength="30" placeholder="06 12 34 56 78">
+
+    <label for="qMessage">Message *</label>
+    <textarea id="qMessage" required maxlength="1500"></textarea>
+
+    <input class="hp" id="qWebsite" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+    <p class="note">Renseignez votre numéro WhatsApp et votre numéro de téléphone.</p>
+
+    <button class="btn" type="submit" style="margin-top:14px">Envoyer le message</button>
+    <p class="msg" id="qMsg" role="status"></p>
+  </form>
+</section>
+
+</main>
+
+<footer>
+  <div>
+    <div class="logo" id="footLogo">SIZO</div>
+    <p>Mode homme &amp; femme</p>
+  </div>
+  <div>
+    <div class="small">© 2026 SIZO. Tous droits réservés.</div>
+    <div class="small">Prix en dirhams (DH)</div>
+  </div>
+</footer>
+
+<div class="overlay" id="overlay" data-act="closeCart"></div>
+
+<aside class="drawer" id="drawer" aria-label="Panier" aria-hidden="true">
+  <div class="drawer-head">
+    <strong id="drawerTitle">Votre panier</strong>
+    <button class="x" data-act="closeCart" aria-label="Fermer">×</button>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-foot" id="drawerFoot"></div>
+</aside>
+
+<div class="modal" id="modal" aria-hidden="true">
+  <section class="detail" role="dialog" aria-modal="true" aria-labelledby="dTitle" id="detail"></section>
+</div>
+
+<script src="/assets/store.js?v=20261125-fix-revert" defer></script>
+
+</body>
+</html>
+
